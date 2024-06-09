@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'ruta_foto',
     ];
 
     /**
@@ -43,5 +45,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role(){
+        return $this->belongsTo('App\Role');
+    }
+    public function foto(){
+        return $this->belongsTo('App\Foto');
     }
 }
