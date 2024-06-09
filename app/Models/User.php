@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -21,7 +20,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'ruta_foto',
+        'foto_id',
     ];
 
     /**
@@ -48,9 +47,9 @@ class User extends Authenticatable
     }
 
     public function role(){
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo('App\Models\Role');
     }
     public function foto(){
-        return $this->belongsTo('App\Foto');
+        return $this->belongsTo('App\Models\Foto');
     }
 }

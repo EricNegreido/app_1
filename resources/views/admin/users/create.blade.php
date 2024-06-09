@@ -7,17 +7,17 @@
 </head>
 <body>
     <h1> Agregar usuario</h1>
-    <form action="/admin/users" method="POST">
+    <form action="/admin/users" method="POST" enctype="multipart/form-data">
       <label for="name"> Nombre: </label>
       <input type="text" name="name">
       <label for="email"> Email: </label>
       <input type="email" name="email">
       <label for="password"> Contraseña: </label>
       <input type="password" name="password">
-      <label for="role"> Role: </label>
+      <label for="role_id"> Role: </label>
       <input type="number" name="role_id">
-      <label for="role"> Foto: </label>
-      <input type="file" name="role_id">
+      <label for="foto_id"> Foto: </label>
+      <input type="file" name="foto_id">
       <input type="reset" value="Vaciar Campos">
       <input type="submit" value="Enviar">
       {{csrf_field()}}

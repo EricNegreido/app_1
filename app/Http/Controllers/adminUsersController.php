@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Foto;
+use Illuminate\Support\Facades\Session;
+
 
 class adminUsersController extends Controller
 {
@@ -30,8 +33,19 @@ class adminUsersController extends Controller
      */
     public function store(Request $request)
     {
-        User::create($request->all());
+        
+        $result = $request->all();
+        if($archivo = $request->file("foto_id")){
+            $nombre = $archivo->getClientOriginalName();
+            $archivo->move(public_path("images"), $nombre);
+            $foto = Foto::create(['ruta_foto'=>$nombre]);
+            $result['foto_id'] = $foto->id;
+        }
+        $result['password'] = bcrypt($request->password);
+        User::create($result);
         return redirect('admin/users');
+
+        
     }
 
     /**
@@ -47,7 +61,8 @@ class adminUsersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -55,7 +70,16 @@ class adminUsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $result = $request->all();
+        if($archivo = $request->file("foto_id")){
+            $nombre = $archivo->getClientOriginalName();
+            $archivo->move(public_path("images"), $nombre);
+            $foto = Foto::create(['ruta_foto'=>$nombre]);
+            $result['foto_id'] = $foto->id;
+        }
+        $user->update($result);
+        return redirect('admin/users');
     }
 
     /**
@@ -63,6 +87,10 @@ class adminUsersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        Session::flash('usuario_borrado','El usuario a sido elminado');
+        $user->delete();
+        return redirect('admin/users');
+
     }
 }
